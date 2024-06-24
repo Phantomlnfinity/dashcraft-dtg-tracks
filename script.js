@@ -2,13 +2,21 @@ const tracks = [{id: "6648906de52a0be7b6faf5de", tier: 2, name: "Beach Day"},
                 {id: "661f32576a3327cdc66ebc8a", tier: 5, name: "unnamed"}]
 let points = [];
 
+var tracksH = document.createElement("h1")
+tracksH.className = "tier"
+tracksH.innerHTML = "Tracks"
+tracksH.style.backgroundColor = "hsla(0, 100%, 5%, 1)"
+tracksH.style.borderColor = "hsla(0, 100%, 15%, 1)"
+document.body.appendChild(tracksH)
+
+
 let tiers = [];
 for (let i = 0; i < 10; i++) {
   var tier = document.createElement("div");
   var bgcolor = "hsla(" + i * 36 + ", 100%, 5%, 1)"
   var outlinecolor = "hsla(" + i * 36 + ", 100%, 15%, 1)"
   tier.className = "tier";
-  tier.innerHTML = "<h2 class='tier' style='background-color: " + bgcolor + "; border-color: " + outlinecolor + "'>Tier " + (i + 1) + "</h2>"
+  tier.innerHTML = "<h2 class='tier' style='background-color: " + bgcolor + "; border-color: " + outlinecolor + "'>Tier " + (i + 1) + " (" + 2**(9-i) + " points)</h2>"
 
   var columns = []
   var table = document.createElement("table");
@@ -23,6 +31,13 @@ for (let i = 0; i < 10; i++) {
   document.body.appendChild(tier);
   tiers.push(table)
 }
+
+var leaderboardH = document.createElement("h1")
+leaderboardH.className = "tier"
+leaderboardH.innerHTML = "Leaderboard (250 to join DTG)"
+leaderboardH.style.backgroundColor = "hsla(0, 100%, 5%, 1)"
+leaderboardH.style.borderColor = "hsla(0, 100%, 15%, 1)"
+document.body.appendChild(leaderboardH)
 
 function getData() {
   var fetches = [];
@@ -75,15 +90,18 @@ function getData() {
 
 
     points.sort((a, b) => b.points - a.points)
-    
+
+
     var tableHTML = document.createElement("table")
-    var style = " style='border-color: hsla(0, 100%, 15%, 1); background-color: hsla(0, 100%, 5%, 1);'"
+    var style = " style='border-color: hsla(" + 360/(points.length+2) + ", 100%, 15%, 1); background-color: hsla(" + 360/points.length + ", 100%, 5%, 1);'"
+
+    
     
     tableHTML.innerHTML =  "<tr><th" + style + ">Username</th><th" + style + ">Points</th></tr>"
     document.body.appendChild(tableHTML)
     for (let i = 0; i < points.length; i++) {
-      var outlinecolor = "border-color: hsla(" + ((i)*360/points.length) + ", 100%, 15%, 1);"
-      var backgroundColor = "background-color: hsla(" + ((i)*360/points.length) + ", 100%, 5%, 1)"
+      var outlinecolor = "border-color: hsla(" + ((i+2)*360/(points.length+2)) + ", 100%, 15%, 1);"
+      var backgroundColor = "background-color: hsla(" + ((i+2)*360/(points.length+2)) + ", 100%, 5%, 1)"
       var table = "<tr>"
       table += "<td style='" + outlinecolor + " " + backgroundColor + "'>" + points[i].username + "</td>"
       table += "<td style='" + outlinecolor + " " + backgroundColor + "'>" + points[i].points + "</td>"
